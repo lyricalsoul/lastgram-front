@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
   if (req.body.message || req.body.edited_message) {
     const message = req.body.message || req.body.edited_message
     if (message.from.is_bot || !message.text || !message.text.startsWith('/')) return res.status(200).json({})
-  
+
     const [cmd, args] = parseText(message.text)
     if (cmd.includes('@') && !cmd.includes(process.env.LGSTABLE ? '@lastgramrobot' : '@lastgrameapbot')) return res.status(200).json({})
     const ctx = generateCtx(message, args)
@@ -25,16 +25,16 @@ module.exports = async (req, res) => {
     } catch (e) {
       return reply(res, ctx, 'Servidor de farelo, voltamos logo')
     }
-    
+
     return res.status(200).json({})
   } else if (req.body.inline_query) {
     const q = req.body.inline_query
-    
+
     try {
       const rst = await runInlineQuery(q)
       return replyInline(res, rst || [], q.id)
     } catch (e) {}
   }
-  
+
   return res.status(200).json({})
 }
