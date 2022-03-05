@@ -1,5 +1,15 @@
 import Head from 'next/head'
-import { NextUIProvider } from '@nextui-org/react';
+import { NextUIProvider, createTheme, Spacer } from '@nextui-org/react'
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
+import AppBar from '../components/AppBar.js'
+
+const darkTheme = createTheme({
+  type: 'dark'
+})
+
+const lightTheme = createTheme({
+  type: 'light'
+})
 
 function App({ Component, pageProps }) {
   return (
@@ -7,11 +17,27 @@ function App({ Component, pageProps }) {
       <Head>
         <title>lastgram</title>
         <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="/global.css" />
       </Head>
-      <NextUIProvider>
-        <Component {...pageProps} />
-      </NextUIProvider>
+      <NextThemesProvider
+        defaultTheme="system"
+        attribute="class"
+        value={{
+          light: lightTheme.className,
+          dark: darkTheme.className
+        }}
+      >
+        <NextUIProvider>
+          <AppBar />
+          <Component {...pageProps} />
+          <Spacer />
+          <div style={{ textAlign: 'center', color: '#fafafa' }}>
+            <a href="https://t.me/lastgramsupport">lastgram support</a> - <a href="mailto:hi@lastgram.xyz">e-mail box</a>
+          </div>
+          <div style={{ textAlign: 'center', color: '#fafafa' }}>
+          lastgram is not associated to telegram, nor last.fm. 
+          </div>
+        </NextUIProvider>
+      </NextThemesProvider>
     </div>
   )
 }
