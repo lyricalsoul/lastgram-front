@@ -1,5 +1,7 @@
-import styles from './DiagonalImage.module.css'
+import Skeleton from './Skeleton'
 
-export default function DiagonalImage (props) {
-  return <img className={styles.diag} {...props} />
+export default (props) => {
+  return <Skeleton size="100vw" clipPath="polygon(0 20%, 100% 0, 100% 80%, 0 100%)">
+    <img {...props} style={{ width: '100%' }} />
+  </Skeleton>
 }
